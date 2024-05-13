@@ -1,0 +1,33 @@
+{
+    "$schema": "./mfdevice.schema.json",
+    "Info": {
+      "Label": "SF RMP",
+      "Type": "SF_RMP",
+      "Author": "Stefano Finetti",
+      "URL": "https://github.com/stefanofinetti/SF_RMP",
+      "Version" : "0.0.1"
+    },
+    "Config": {
+      "Pins": [],
+      "I2C": {
+        "Enabled": true,
+        "Addresses": [
+          "0x70",
+          "0x71"
+        ]
+      }
+    },
+    "MessageTypes": [
+      {
+        "id": 0,
+        "label": "Active Radio Frequency",
+        "description": "$ will be displayed as frequency xxx.yyy"
+      },
+      {
+        "id": 1,
+        "label": "StandBy/Course Radio Frequency",
+        "description": "$ will be displayed as frequency xxx.yyy"
+      }
+    ]
+  }
+  
