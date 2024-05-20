@@ -1,11 +1,11 @@
 #pragma once
 
 #include <Arduino.h>
-#include "SfRmp.h"
+#include "SF_RMP.h"
 
 // only one entry required if you have only one custom device
 enum {
-    SF_RMP = 1,
+    SF_RMP_DEVICE = 1,
 };
 class MFCustomDevice
 {
@@ -19,7 +19,6 @@ public:
 private:
     bool           getStringFromEEPROM(uint16_t addreeprom, char *buffer);
     bool           _initialized = false;
-    SfRmp *_mydevice;
-    uint8_t        _pin1, _pin2, _pin3;
+    SF_RMP           *_my_SF_RMP;
     uint8_t        _customType = 0;
 };

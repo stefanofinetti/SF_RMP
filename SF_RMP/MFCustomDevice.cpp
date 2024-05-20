@@ -16,7 +16,7 @@ extern MFEEPROM MFeeprom;
     E.g. 6 pins are required, each pin could have two characters (two digits),
     each pins are delimited by "|" and the string is NULL terminated.
     -> (6 * 2) + 5 + 1 = 18 bytes is the maximum.
-    The custom type is "SfRmp", which means 14 characters plus NULL = 15
+    The custom type is "SF_RMP", which means 14 characters plus NULL = 15
     The configuration is "myConfig", which means 8 characters plus NULL = 9
     The maximum characters to be expected is 18, so MEMLEN_STRING_BUFFER has to be at least 18
 ********************************************************************************** */
@@ -54,7 +54,6 @@ MFCustomDevice::MFCustomDevice()
 
 void MFCustomDevice::attach(uint16_t adrPin, uint16_t adrType, uint16_t adrConfig)
 {
-    if (adrPin == 0) return;
 
     /* **********************************************************************************
         Do something which is required to setup your custom device
@@ -70,14 +69,14 @@ void MFCustomDevice::attach(uint16_t adrPin, uint16_t adrType, uint16_t adrConfi
         is used to store the type
     ********************************************************************************** */
     getStringFromEEPROM(adrType, parameter);
-    if (strcmp(parameter, "SF_RMP") == 0)
-        _customType = SF_RMP;
+    if (strcmp(parameter, "SF_RMP_BOARD") == 0)
+        _customType = SF_RMP_DEVICE;
 
-    if (_customType == SF_RMP) {
+    if (_customType == SF_RMP_DEVICE) {
         /* **********************************************************************************
             Check if the device fits into the device buffer
         ********************************************************************************** */
-        if (!FitInMemory(sizeof(SfRmp))) {
+        if (!FitInMemory(sizeof(SF_RMP))) {
             // Error Message to Connector
             cmdMessenger.sendCmd(kStatus, F("Custom Device does not fit in Memory"));
             return;
@@ -124,11 +123,11 @@ void MFCustomDevice::attach(uint16_t adrPin, uint16_t adrType, uint16_t adrConfi
         ********************************************************************************** */
         // In most cases you need only one of the following functions
         // depending on if the constuctor takes the variables or a separate function is required
-        _mydevice = new (allocateMemory(sizeof(SfRmp))) SfRmp();
-        _mydevice->attach(_addrI2C);
+        _my_SF_RMP = new (allocateMemory(sizeof(SF_RMP))) SF_RMP();
+        _my_SF_RMP->attach(_addrI2C);
         // if your custom device does not need a separate begin() function, delete the following
         // or this function could be called from the custom constructor or attach() function
-        _mydevice->begin();
+        _my_SF_RMP->begin();
         _initialized = true;
     } else {
         cmdMessenger.sendCmd(kStatus, F("Custom Device is not supported by this firmware version"));
@@ -143,8 +142,8 @@ void MFCustomDevice::attach(uint16_t adrPin, uint16_t adrType, uint16_t adrConfi
 void MFCustomDevice::detach()
 {
     _initialized = false;
-    if (_customType == SF_RMP) {
-        _mydevice->detach();
+    if (_customType == SF_RMP_DEVICE) {
+        _my_SF_RMP->detach();
     } 
 }
 
@@ -163,8 +162,8 @@ void MFCustomDevice::update()
     /* **********************************************************************************
         Do something if required
     ********************************************************************************** */
-    if (_customType == SF_RMP) {
-        _mydevice->update();
+    if (_customType == SF_RMP_DEVICE) {
+        _my_SF_RMP->update();
     } 
 }
 
@@ -177,7 +176,7 @@ void MFCustomDevice::set(int16_t messageID, char *setPoint)
 {
     if (!_initialized) return;
 
-    if (_customType == SF_RMP) {
-        _mydevice->set(messageID, setPoint);
+    if (_customType == SF_RMP_DEVICE) {
+        _my_SF_RMP->set(messageID, setPoint);
     } 
 }

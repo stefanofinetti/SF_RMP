@@ -8,10 +8,10 @@
 #define TCA9548A_CHANNEL_RMP_ACTIVE  0
 #define TCA9548A_CHANNEL_RMP_STANDBY 1
 
-class SfRmp
+class SF_RMP
 {
 public:
-    SfRmp();
+    SF_RMP();
     void begin();
     void attach(uint8_t addrI2C);
     void detach();

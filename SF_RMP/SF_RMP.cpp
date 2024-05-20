@@ -1,23 +1,25 @@
-#include "SfRmp.h"
+#include "SF_RMP.h"
 #include "allocateMem.h"
 #include "commandmessenger.h"
-#include "Fonts/DSEG7Classic_Regular20pt7b.h"
+#include "Fonts/DSEG7Classic_Regular12pt7b.h"
+#include "Fonts/FreeSans8pt7b.h"
 #include <SPI.h>
 
 // RMP Active
-String  RMPActiveValue = "000.000";
+String  RMPActiveValue = "122.800";
 
-// Efis right
-String  RMPStandbyValue = "000.000";
+// RMP Standby
+String  RMPStandbyValue = "122.800";
 
+// Light Test
+uint8_t lightTestOn = 0x00;
 
-
-SfRmp::SfRmp()
+SF_RMP::SF_RMP()
 {
     _initialised = false;
 }
 
-void SfRmp::attach(uint8_t addrI2C)
+void SF_RMP::attach(uint8_t addrI2C)
 {
     _addrI2C = addrI2C;
     Wire.begin();
@@ -27,21 +29,19 @@ void SfRmp::attach(uint8_t addrI2C)
         cmdMessenger.sendCmd(kStatus, F("Custom Device does not fit in Memory"));
         return;
     }
-    if (_addrI2C & 0x01) {
+
         oled = new (allocateMemory(sizeof(OLEDInterface))) OLEDInterface(SSD1306);
-    } else {
-        oled = new (allocateMemory(sizeof(OLEDInterface))) OLEDInterface(SH1106);
-    }
+
     _initialised = true;
 }
 
-void SfRmp::begin()
+void SF_RMP::begin()
 {
     if (!_initialised)
         return;
 
     //**************************
-    // // Efis left
+    // // RMP Active
     // //**************************
     setTCAChannel(TCA9548A_CHANNEL_RMP_ACTIVE);
     oled->begin(SCREEN_ADDRESS, true); // Address 0x3C default
@@ -49,24 +49,23 @@ void SfRmp::begin()
     updateDisplayRmpActive();
 
     //**************************
-    // Efis right
+    // RMP Standby
     //**************************
     setTCAChannel(TCA9548A_CHANNEL_RMP_STANDBY);
     oled->begin(SCREEN_ADDRESS, true); // Address 0x3C default
     oled->display();
-    oled->setTextColor(SSD1306_WHITE);
     updateDisplayRmpStandby();
 }
 
 
-void SfRmp::detach()
+void SF_RMP::detach()
 {
     if (!_initialised)
         return;
     _initialised = false;
 }
 
-void SfRmp::set(int16_t messageID, char *message)
+void SF_RMP::set(int16_t messageID, char *message)
 {
     /* **********************************************************************************
         Each messageID has it's own value
@@ -78,7 +77,6 @@ void SfRmp::set(int16_t messageID, char *message)
         Put in your code to enter this mode (e.g. clear a display)
 
     ********************************************************************************** */
-
     // do something according your messageID
     switch (messageID) {
     case -1:
@@ -95,12 +93,17 @@ void SfRmp::set(int16_t messageID, char *message)
         RMPStandbyValue = message;
         updateDisplayRmpStandby();
         break;
+    case 3:
+        lightTestOn = atoi(message);
+        updateDisplayRmpActive();
+        updateDisplayRmpStandby();
+        break;
     default:
         break;
     }
 }
 
-void SfRmp::update()
+void SF_RMP::update()
 {
     // Do something which is required regulary
     updateDisplayRmpActive();
@@ -110,7 +113,7 @@ void SfRmp::update()
 /*
   switch multiplexer channel
 */
-void SfRmp::setTCAChannel(byte i)
+void SF_RMP::setTCAChannel(byte i)
 {
     Wire.beginTransmission(_addrI2C);
     Wire.write(1 << i);
@@ -118,26 +121,48 @@ void SfRmp::setTCAChannel(byte i)
     delay(5); // Pause
 }
 
-void SfRmp::updateDisplayRmpActive(void)
+void SF_RMP::updateDisplayRmpActive(void)
 {
     setTCAChannel(TCA9548A_CHANNEL_RMP_ACTIVE);
     // Clear the buffer
     oled->clearDisplay();
     oled->setTextColor(SSD1306_WHITE);
-    oled->setFont(&DSEG7Classic_Regular20pt7b);
-    oled->setCursor(0, 60);
-    oled->println(RMPActiveValue);
+    if(lightTestOn == 1) {
+        oled->setFont(&FreeSans8pt7b);
+        oled->setTextSize(1);
+        oled->setCursor(20,15);
+        oled->println("TEST");
+        oled->setFont(&DSEG7Classic_Regular12pt7b);
+        oled->setCursor(0,30);
+        oled->println("RADIO ACT");    
+    } else{
+        oled->setFont(&DSEG7Classic_Regular12pt7b);
+        oled->setCursor(0, 30);
+        oled->println(RMPActiveValue);        
+    }
     oled->display();
 }
 
-void SfRmp::updateDisplayRmpStandby(void)
+void SF_RMP::updateDisplayRmpStandby(void)
 {
     setTCAChannel(TCA9548A_CHANNEL_RMP_STANDBY);
     // Clear the buffer
     oled->clearDisplay();
     oled->setTextColor(SSD1306_WHITE);
-    oled->setFont(&DSEG7Classic_Regular20pt7b);
-    oled->setCursor(0, 60);
-    oled->println(RMPStandbyValue);
+    if(lightTestOn == 1) {
+        oled->setFont(&FreeSans8pt7b);
+        oled->setTextSize(1);
+        oled->setCursor(20,15);
+        oled->println("TEST");
+        oled->setFont(&DSEG7Classic_Regular12pt7b);
+        oled->setCursor(0,30);
+        oled->println("RADIO STBY");
+        oled->fillCircle(16,60,2, SSD1306_WHITE);
+    } else{
+        oled->setFont(&DSEG7Classic_Regular12pt7b);
+        oled->setCursor(0, 30);
+        oled->println(RMPStandbyValue);        
+    }
     oled->display();
-} 
+}
+ 

@@ -7,10 +7,10 @@
       "Timeout": 15000
     },
     "Connection": {
-      "ConnectionDelay": 1250,
+      "ConnectionDelay": 2000,
       "ExtraConnectionRetry": false,
       "ForceResetOnFirmwareUpdate": false,
-      "DelayAfterFirmwareUpdate": 0,
+      "DelayAfterFirmwareUpdate": 2000,
       "DtrEnable": true,
       "MessageSize": 90,
       "EEPROMSize": 1496
@@ -38,14 +38,14 @@
       "FirmwareBaseName": "sf_rmp_mega",
       "FirmwareExtension": "hex",
       "LatestFirmwareVersion": "0.0.1",
-      "FriendlyName": "SF RMP Mega",
-      "MobiFlightType": "SF RMP Mega",
+      "FriendlyName": "SF RMP Board Mega",
+      "MobiFlightType": "SF_RMP_BOARD Mega",
       "ResetFirmwareFile": "reset.arduino_mega_1_0_2.hex",
       "CustomDeviceTypes": [
-        "SF_RMP"
+        "SF_RMP_BOARD"
       ],
       "Community": {
-        "Project": "SF RMP",
+        "Project": "SF RMP Board",
         "Website": "https://github.com/stefanofinetti/SF_RMP",
         "Docs": "https://github.com/stefanofinetti/SF_RMP",
         "Support": "https://github.com/stefanofinetti/SF_RMP"

@@ -1,8 +1,8 @@
 {
     "$schema": "./mfdevice.schema.json",
     "Info": {
-      "Label": "SF RMP",
-      "Type": "SF_RMP",
+      "Label": "SF RMP MODULE",
+      "Type": "SF_RMP_BOARD",
       "Author": "Stefano Finetti",
       "URL": "https://github.com/stefanofinetti/SF_RMP",
       "Version" : "0.0.1"
