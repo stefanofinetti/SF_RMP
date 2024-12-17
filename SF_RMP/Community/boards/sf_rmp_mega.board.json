@@ -13,7 +13,8 @@
       "DelayAfterFirmwareUpdate": 2000,
       "DtrEnable": true,
       "MessageSize": 90,
-      "EEPROMSize": 1496
+      "EEPROMSize": 1496,
+      "TimeoutForFirmwareUpdate": 25000
     },
     "HardwareIds": [
       "^VID_2341&PID_0010",
@@ -37,7 +38,7 @@
       "DelayAfterFirmwareUpdate": 0,
       "FirmwareBaseName": "sf_rmp_mega",
       "FirmwareExtension": "hex",
-      "LatestFirmwareVersion": "0.0.1",
+      "LatestFirmwareVersion": "0.9.9",
       "FriendlyName": "SF RMP Board Mega",
       "MobiFlightType": "SF_RMP_BOARD Mega",
       "ResetFirmwareFile": "reset.arduino_mega_1_0_2.hex",
@@ -53,16 +54,16 @@
     },
     "ModuleLimits": {
       "MaxAnalogInputs": 16,
-      "MaxInputShifters": 6,
+      "MaxInputShifters": 4,
       "MaxButtons": 68,
       "MaxEncoders": 20,
       "MaxLcdI2C": 2,
-      "MaxLedSegments": 6,
-      "MaxOutputs": 68,
-      "MaxServos": 12,
-      "MaxShifters": 6,
+      "MaxLedSegments": 4,
+      "MaxOutputs": 40,
+      "MaxServos": 10,
+      "MaxShifters": 4,
       "MaxSteppers": 10,
-      "MaxInputMultiplexer": 6,
+      "MaxInputMultiplexer": 4,
       "MaxCustomDevices": 5
     },
     "Pins": [

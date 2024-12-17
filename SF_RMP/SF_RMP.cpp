@@ -6,10 +6,10 @@
 #include <SPI.h>
 
 // RMP Active
-String  RMPActiveValue = "122.800";
+String  RMPActiveValue = "123.456";
 
 // RMP Standby
-String  RMPStandbyValue = "122.800";
+String  RMPStandbyValue = "123.456";
 
 // Light Test
 uint8_t lightTestOn = 0x00;
@@ -129,7 +129,6 @@ void SF_RMP::updateDisplayRmpActive(void)
     oled->setTextColor(SSD1306_WHITE);
     if(lightTestOn == 1) {
         oled->setFont(&FreeSans8pt7b);
-        oled->setTextSize(1);
         oled->setCursor(20,15);
         oled->println("TEST");
         oled->setFont(&DSEG7Classic_Regular12pt7b);
@@ -151,13 +150,12 @@ void SF_RMP::updateDisplayRmpStandby(void)
     oled->setTextColor(SSD1306_WHITE);
     if(lightTestOn == 1) {
         oled->setFont(&FreeSans8pt7b);
-        oled->setTextSize(1);
         oled->setCursor(20,15);
         oled->println("TEST");
         oled->setFont(&DSEG7Classic_Regular12pt7b);
         oled->setCursor(0,30);
         oled->println("RADIO STBY");
-        oled->fillCircle(16,60,2, SSD1306_WHITE);
+        
     } else{
         oled->setFont(&DSEG7Classic_Regular12pt7b);
         oled->setCursor(0, 30);

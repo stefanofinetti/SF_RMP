@@ -5,15 +5,14 @@
       "Type": "SF_RMP_BOARD",
       "Author": "Stefano Finetti",
       "URL": "https://github.com/stefanofinetti/SF_RMP",
-      "Version" : "0.0.1"
+      "Version" : "0.9.9"
     },
     "Config": {
       "Pins": [],
       "I2C": {
         "Enabled": true,
         "Addresses": [
-          "0x70",
-          "0x71"
+          "0x70"
         ]
       }
     },

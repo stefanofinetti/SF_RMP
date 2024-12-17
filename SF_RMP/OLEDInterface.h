@@ -71,24 +71,6 @@ public:
             oled_1306->setTextSize(s);
 
     }
-    void fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
-    {
-
-            oled_1306->fillCircle(x0, y0, r, color);
-
-    }
-    void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color)
-    {
-
-            oled_1306->drawFastVLine(x, y, h, color);
-
-    }
-    void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
-    {
-
-            oled_1306->drawFastHLine(x, y, w, color);
-
-    }
     void println(const char *t)
     {
 
